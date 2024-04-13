@@ -1,18 +1,25 @@
-const http = require("http");
+const express = require("express");
 
-// Create an HTTP server
-const server = http.createServer((req, res) => {
-  // Set the response HTTP header with status code 200 and Content-Type text/plain
-  res.writeHead(200, { "Content-Type": "text/plain" });
+// Create an Express application
+const app = express();
 
-  // Write the response body
-  res.end("Hello, World!\n");
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Route to handle GET requests
+app.get("/", (req, res) => {
+  res.json({ success: true, method: "GET", ...req.body });
+});
+
+// Route to handle POST requests
+app.post("/", (req, res) => {
+  res.json({ success: true, method: "POST", ...req.body });
 });
 
 // Define the port to listen on
 const port = 3000;
 
 // Start listening on the defined port
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });
